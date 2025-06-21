@@ -6,10 +6,12 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-mongoose.connect(process.env.MONGO_URL || "mongodb://localhost:27017/missyou", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+require('dotenv').config();
+
+mongoose.connect(process.env.MONGO_URL)
+  .then(() => console.log("Connected to MongoDB Atlas"))
+  .catch(err => console.error("MongoDB connection error:", err));
+
 
 const messageSchema = new mongoose.Schema({ text: String });
 const Message = mongoose.model("Message", messageSchema);
